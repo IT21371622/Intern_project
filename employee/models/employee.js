@@ -13,8 +13,6 @@ const EmployeeSchema = new mongoose.Schema({
         type: String,
        
     },
-
-   
     gender: {
         type: String,
        
@@ -22,7 +20,7 @@ const EmployeeSchema = new mongoose.Schema({
     contactNo: {
         type: Number,
        
-    },
+    }
 
     
 });

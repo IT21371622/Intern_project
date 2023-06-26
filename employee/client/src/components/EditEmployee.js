@@ -1,57 +1,55 @@
-import React, { Component } from 'react';
-import axios from 'axios';
+import React, { Component } from "react";
+import axios from "axios";
 import { useParams, useLocation } from "react-router-dom";
-import "../css/form.css"
-import Swal from 'sweetalert2';
+import "../css/form.css";
+import Swal from "sweetalert2";
+
+
 function withParams(Component) {
-  return props => <Component params={useParams()} />
+  return (props) => <Component params={useParams()} />;
 }
 
 class EditEmployee extends Component {
-
   constructor(props) {
     super(props);
 
     this.state = {
       id: props.params.id,
       employee: [],
-      firstName: '',
-      lastName: '',
-      email: '',
-
-      gender: '',
-      contactNo: '',
-
+      firstName: "",
+      lastName: "",
+      email: "",
+      gender: "",
+      contactNo: "",
     };
   }
 
   componentDidMount() {
     console.log(this.state.id);
-    const id = this.state.id
+    const id = this.state.id;
     axios.get(`/EmployeeList/post/${id}`).then((res) => {
       console.log(res.data.post);
       if (res.data.success) {
         this.setState({
-          employee: res.data.post
+          employee: res.data.post,
         });
         console.log(this.state.employee);
       }
-
     });
   }
 
-  //edit 
+  //edit
   handleChange = (e) => {
     const { name, value } = e.target;
 
     this.setState({
       ...this.state,
-      [name]: value
+      [name]: value,
     });
-  }
+  };
   onSubmit = (e) => {
     e.preventDefault();
-    const id = this.state.id
+    const id = this.state.id;
 
     const { firstName, lastName, email, gender, contactNo } = this.state;
 
@@ -62,39 +60,39 @@ class EditEmployee extends Component {
       email: email.length != 0 ? email : data.email,
       gender: gender.length != 0 ? gender : data.gender,
       contactNo: contactNo.length != 0 ? contactNo : data.contactNo,
-    }
+    };
 
-    axios.put(`/EditEmployee/post/${id}`, data).then((res) => {
-
-      if (res.data.success) {
-        Swal.fire({
-          title: 'Updated Successfully!',
-          text: 'Your changes have been saved.',
-          icon: 'success',
-          confirmButtonColor: '#3085d6',
-          confirmButtonText: 'OK'
-        }).then(() => {
-          this.setState({
-            firstName: '',
-            lastName: '',
-            email: '',
-            gender: '',
-            contactNo: '',
-
-
+    axios
+      .put(`/EditEmployee/post/${id}`, data)
+      .then((res) => {
+        if (res.data.success) {
+          Swal.fire({
+            title: "Updated Successfully!",
+            text: "Your changes have been saved.",
+            icon: "success",
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "OK",
+          }).then(() => {
+            this.setState({
+              firstName: "",
+              lastName: "",
+              email: "",
+              gender: "",
+              contactNo: "",
+            });
+            window.location.href = `/employee/list`;
           });
-          window.location.href = `/employee/list`;
+        }
+      })
+      .catch((error) => {
+        Swal.fire({
+          title: "Error!",
+          text: "An error occurred while updating the post. Please try again later.",
+          icon: "error",
+          confirmButtonColor: "#3085d6",
+          confirmButtonText: "OK",
         });
-      }
-    }).catch((error) => {
-      Swal.fire({
-        title: 'Error!',
-        text: 'An error occurred while updating the post. Please try again later.',
-        icon: 'error',
-        confirmButtonColor: '#3085d6',
-        confirmButtonText: 'OK'
       });
-    });
   };
 
   onDelete = (id) => {
@@ -116,12 +114,10 @@ class EditEmployee extends Component {
   };
 
   render() {
-
-    const { _id, firstName, lastName, email, gender, contactNo } = this.state.employee;
+    const { _id, firstName, lastName, email, gender, contactNo } =
+      this.state.employee;
     return (
-      <div className='container1'>
-
-
+      <div className="container1">
         <form className="update" onSubmit={this.onSubmit}>
           <h3>Update Employee</h3>
 
@@ -132,7 +128,6 @@ class EditEmployee extends Component {
             value={this.state.firstName}
             onChange={this.handleChange}
             placeholder={firstName}
-
             minlength="6"
             maxlength="10"
           />
@@ -144,7 +139,6 @@ class EditEmployee extends Component {
             value={this.state.lastName}
             onChange={this.handleChange}
             placeholder={lastName}
-
             minlength="6"
             maxlength="10"
           />
@@ -159,7 +153,12 @@ class EditEmployee extends Component {
           />
 
           <label>Gender: </label>
-          <select name="gender" value={this.state.gender} onChange={this.handleChange} placeholder={gender}>
+          <select
+            name="gender"
+            value={this.state.gender}
+            onChange={this.handleChange}
+            placeholder={gender}
+          >
             <option value="">--Select Gender--</option>
             <option value="Male">M</option>
             <option value="Female">F</option>
@@ -182,14 +181,9 @@ class EditEmployee extends Component {
             </button>
           </center>
         </form>
-
       </div>
-
-
-    )
+    );
   }
 }
-
-
 
 export default withParams(EditEmployee);

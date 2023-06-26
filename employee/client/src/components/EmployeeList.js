@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { useParams, useLocation, Link } from "react-router-dom";
-import { jsPDF } from "jspdf";
 import Swal from 'sweetalert2';
 import css from '../css/styles.css';
-import "jspdf-autotable";
-function withParams(Component) {
+
+
+
+function withParams(Component) {          
     return props => <Component params={
         useParams()
     } />
@@ -41,8 +42,7 @@ class EmployeeList extends Component {
     }
 
 
-    // edit
-    handleChange = (e) => {
+    handleChange = (e) => {      
         const { name, value } = e.target;
 
         this.setState({
@@ -52,7 +52,7 @@ class EmployeeList extends Component {
         this.status = value;
     }
 
-    onDelete = (id) => {
+    onDelete = (id) => {        //delete function
         Swal.fire({
             title: 'Are you sure you want to delete this?',
             icon: 'warning',
@@ -65,7 +65,7 @@ class EmployeeList extends Component {
                 axios.delete(`/EmployeeList/post/${id}`).then((res) => {
                     Swal.fire(
                         'Deleted!',
-                        'Your post has been deleted.',
+                        'employee has been deleted.',
                         'success'
                     )
                     this.retrievePosts();
@@ -74,7 +74,8 @@ class EmployeeList extends Component {
         });
     };
 
-    render() {
+
+    render() {       
         return (
             <div>
                 <div className='mt-5'>
@@ -85,8 +86,8 @@ class EmployeeList extends Component {
                             <div class="main-top">
                                 <h1>Employee List</h1>
                             </div>
-                            <table class="table" id="EmployeeTable">
-                                <thead>
+                            <table class="table" id="EmployeeTable"> 
+                                <thead>  
                                     <th scope="col" >No.</th>
                                     <th scope="col" >firstName</th>
                                     <th scope="col" >lastName</th>
@@ -96,9 +97,9 @@ class EmployeeList extends Component {
                                 </thead>
                                 <tbody> {
                                     this.state.employee.map((employee, index) => (
-                                        <tr key={index}>
+                                        <tr key={index}>   
 
-                                            <th scope="row">
+                                            <th scope="row">        
                                                 {
                                                     index + 1
                                                 }</th>
@@ -121,16 +122,16 @@ class EmployeeList extends Component {
                                             <td>{
                                                 employee.contactNo
                                             }</td>
-                                            <td>
-                                                <a href={`/employee/edit/${employee._id}`} className="btn-edit">Update</a>
+                                            <td>  
+                                                <a href={`/employee/edit/${employee._id}`} className="btn-edit">Update</a>  
                                             </td>
 
                                             <td onClick={
                                                 () => this.onDelete(employee._id)
                                             }>
-                                                <a className="btn-delete">Delete</a>
+                                                <a className="btn-delete">Delete</a>   
                                             </td>
-                                        </tr>
+                                        </tr>  
                                     ))
                                 } </tbody>
 
@@ -138,7 +139,7 @@ class EmployeeList extends Component {
                             </table>
 
                             <a href="/employee/add">
-                                <button className="btn" type="submit">
+                                <button className="btn" type="submit">    
                                     Add Employee
                                 </button></a>
                         </section>

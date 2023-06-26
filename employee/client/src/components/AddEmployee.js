@@ -1,20 +1,21 @@
-import React, { useState, Component } from 'react'
-import '../css/form.css'
-import axios from 'axios';
+import React, { useState, Component } from "react";
+import "../css/form.css";
+import axios from "axios";
 
 export default class AddEmployee extends Component {
-  constructor(props) {
+  
+  
+  constructor(props) {  //create class component
     super(props);
     this.state = {
       employee: [],
-      firstName: '',
-      lastName: '',
-      email: '',
+      firstName: "",
+      lastName: "",
+      email: "",
 
-      gender: '',
-      contactNo: '',
-
-    }
+      gender: "",
+      contactNo: "",
+    };
   }
 
   handleChange = (e) => {
@@ -22,10 +23,9 @@ export default class AddEmployee extends Component {
 
     this.setState({
       ...this.state,
-      [name]: value
+      [name]: value,
     });
-  }
-
+  };
 
   onSubmit = (e) => {
     e.preventDefault();
@@ -36,41 +36,34 @@ export default class AddEmployee extends Component {
       firstName: firstName,
       lastName: lastName,
       email: email,
-
       gender: gender,
       contactNo: contactNo,
+    };
 
-
-    }
     console.log(data);
 
     axios.post("/AddEmployee/post", data).then((res) => {
       if (res.data.success) {
         console.log(res.data.success._id);
-        var id = res.data.success._id
+        var id = res.data.success._id;
         window.location.href = `/employee/list`;
 
-        this.setState(
-          {
-            firstName: "",
-            lastName: "",
-            email: "",
+        this.setState({
+          firstName: "",
+          lastName: "",
+          email: "",
 
-            gender: "",
-            contactNo: "",
-
-          }
-        )
+          gender: "",
+          contactNo: "",
+        });
       }
-    })
-
-  }
+    });
+  };
 
   render() {
     return (
-      <div className='container1'>
-        {/* <a href="/EmployeeList"><button className='backBtn'>Employee List</button></a> */}
-
+      <div className="container1">
+        
         <form className="create" onSubmit={this.onSubmit}>
           <h3>Add New Employee</h3>
 
@@ -83,7 +76,6 @@ export default class AddEmployee extends Component {
             required
             minlength="6"
             maxlength="10"
-
           />
 
           <label>LastName: </label>
@@ -107,7 +99,12 @@ export default class AddEmployee extends Component {
           />
 
           <label>Gender: </label>
-          <select name="gender" value={this.state.gender} onChange={this.handleChange} required>
+          <select
+            name="gender"
+            value={this.state.gender}
+            onChange={this.handleChange}
+            required
+          >
             <option value="">--Select Gender--</option>
             <option value="Male">M</option>
             <option value="Female">F</option>
@@ -131,8 +128,6 @@ export default class AddEmployee extends Component {
           </center>
         </form>
       </div>
-    )
+    );
   }
-
 }
-

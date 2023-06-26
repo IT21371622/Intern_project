@@ -1,9 +1,7 @@
-
-
 const mongoose = require('mongoose');
 
-const postSchema = new mongoose.Schema({
-    name: {
+const postSchema = new mongoose.Schema({     //creating schema in mongo database
+    name: {                                  //creating attributes
         type: String,
         
     },
