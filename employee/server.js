@@ -5,13 +5,11 @@ const cors = require('cors');
 
 const app = express();
 
-const postRoutes = require('./routes/posts');
-
 
 app.use(bodyParser.json());
 app.use(cors());
 
-app.use(postRoutes);
+
 app.use(cors());
 mongoose.set('strictQuery', true);
 const port = 8000;
